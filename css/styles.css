@@ -1,8 +1,14 @@
+h1 
+{
+    text-align: center;
+    margin-bottom: 5vh;
+    text-decoration: underline;
+}
 .todo-grid
 {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 1fr 1fr;
 }
 
 .todo-grid h2
@@ -26,4 +32,19 @@
 {
     grid-column: 1;
     grid-row: 3;
+
+}
+
+.add-button, #task
+{
+    width: 25vw;
+}
+#task-label
+{
+    display: inline-grid;
+}
+
+.captions
+{
+    text-align: left;
 }

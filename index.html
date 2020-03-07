@@ -15,20 +15,20 @@
     <main class="todo-grid">
         <h2>Add to To-Dos</h2>
         <form id="add-task" action="#" method="GET">
-            <label for="task">
+            <label id="task-label" for="task">
                 Enter Task:
                 <input id="task" name="task" type="text">
             </label>
-            <input type="submit" value="Add To-Do">
+            <input class="add-button" type="submit" value="Add To-Do">
         </form>
         <table class="active-todo">
-            <caption>Active To-Do's</caption>
+            <caption class = "captions">Active To-Do's</caption>
             <tbody id="active-table-body">
 
             </tbody>
         </table>
         <table class="completed-todo">
-            <caption>Completed To-Do's</caption>
+            <caption class = "captions">Completed To-Do's</caption>
             <tbody id="completed-table-body">
 
             </tbody>
