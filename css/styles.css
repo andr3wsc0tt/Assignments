@@ -8,7 +8,7 @@ h1
 {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 0.5fr 1fr 1fr;
+    grid-template-rows: 0.5fr auto auto;
 }
 
 .todo-grid h2
@@ -47,4 +47,15 @@ h1
 .captions
 {
     text-align: left;
+}
+
+.data-class
+{
+    max-width: 50vw;
+    overflow: auto;
+}
+
+[id*="task"]
+{
+    display: grid;
 }

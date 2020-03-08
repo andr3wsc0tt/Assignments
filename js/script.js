@@ -22,13 +22,14 @@ form.addEventListener('submit', function (event) {
     completeCheckbox.name = `task${i}`;
 
     editButton.addEventListener('click', function(event){
-        var tdata = this.parentNode;
+        var tRow = this.parentNode;
         var newTask = prompt("What would you like the new task to be?");
-        tdata.childNodes[0].textContent = newTask;
+        if (newTask != null)
+            tRow.childNodes[1].textContent = newTask;
     })
 
     deleteButton.addEventListener('click', function (event) {
-        var deleteRow = this.parentNode.parentNode;
+        var deleteRow = this.parentNode;
         deleteRow.parentNode.removeChild(deleteRow);
     })
 
@@ -39,6 +40,7 @@ form.addEventListener('submit', function (event) {
             var newData = document.createElement('td');
 
             newData.textContent = deleteRow.childNodes[1].childNodes[0].textContent;
+            newData.className = "data-class";
             newRow.appendChild(newData);
             completedTableBody.appendChild(newRow);
 
@@ -47,11 +49,15 @@ form.addEventListener('submit', function (event) {
     })
 
     tdata.textContent = document.getElementById('task').value;
-    tdata.appendChild(deleteButton);
-    tdata.appendChild(editButton);
+    tdata.className = "data-class";
 
-    trow.id = `task${i++}`;
     trow.appendChild(completeCheckbox);
     trow.appendChild(tdata);
+    trow.appendChild(deleteButton);
+    trow.appendChild(editButton);
+
+    trow.id = `task${i++}`;
+    
+    
     toDoTableBody.appendChild(trow);
 })
