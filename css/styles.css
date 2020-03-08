@@ -34,6 +34,10 @@ h1
     grid-row: 3;
 
 }
+#active-table-body
+{
+    display: inline-grid;
+}
 
 .add-button, #task
 {
@@ -55,7 +59,8 @@ h1
     overflow: auto;
 }
 
-[id*="task"]
+[id^="task"]
 {
     display: grid;
+    grid-template-columns: auto auto .1fr .1fr;
 }

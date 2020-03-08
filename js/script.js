@@ -23,7 +23,7 @@ form.addEventListener('submit', function (event) {
 
     editButton.addEventListener('click', function(event){
         var tRow = this.parentNode;
-        var newTask = prompt("What would you like the new task to be?");
+        var newTask = prompt("What would you like the new task to be?", tRow.childNodes[1].textContent);
         if (newTask != null)
             tRow.childNodes[1].textContent = newTask;
     })
