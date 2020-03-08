@@ -39,9 +39,13 @@ h1
     display: inline-grid;
 }
 
-.add-button, #task
+#task
 {
     width: 25vw;
+}
+.add-button
+{
+    width: 26vw;
 }
 #label-task
 {
