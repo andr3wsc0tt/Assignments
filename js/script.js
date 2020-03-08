@@ -29,9 +29,9 @@ form.addEventListener('submit', function (event) {
 
     editButton.addEventListener('click', function(event){
         var tRow = this.parentNode;
-        var newTask = prompt("What would you like the new task to be?", tRow.childNodes[1].textContent);
+        var newTask = prompt("What would you like the new task to be?", tRow.childNodes[1].childNodes[0].textContent);
         if (newTask != null)
-            tRow.childNodes[1].textContent = newTask;
+            tRow.childNodes[1].childNodes[0].textContent = newTask;
     })
 
     // Checkbox (Completed Criteria)
@@ -46,7 +46,12 @@ form.addEventListener('submit', function (event) {
             var newRow = document.createElement('tr');
             var newData = document.createElement('td');
 
-            newData.textContent = deleteRow.childNodes[1].textContent; // get td.textContent ==> <tr < [0]input >< [1]td >< [2]button >< [3]button >>
+            var date = new Date();
+            var pDate = document.createElement('p');
+            pDate.textContent = date;
+            newData.textContent = deleteRow.childNodes[1].childNodes[0].textContent; // get td.textContent ==> <tr < [0]input >< [1]td >< [2]button >< [3]button >>
+            newData.textContent += ` - ${pDate.textContent}`;
+
             newData.className = "data-class";
             newRow.appendChild(newData);
             completedTableBody.appendChild(newRow);
@@ -59,7 +64,11 @@ form.addEventListener('submit', function (event) {
 
     tdata.textContent = document.getElementById('task').value;
     tdata.className = "data-class";
-
+    
+    var date = new Date();
+    var pDate = document.createElement('p');
+    pDate.textContent = date;
+    tdata.appendChild(pDate);
     trow.appendChild(completeCheckbox);
     trow.appendChild(tdata);
     trow.appendChild(deleteButton);
