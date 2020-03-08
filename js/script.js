@@ -4,6 +4,7 @@ const toDoTableBody = document.getElementById('active-table-body');
 const completedTableBody = document.getElementById('completed-table-body');
 
 var i = 0;
+
 form.addEventListener('submit', function (event) {
 
     event.preventDefault();
@@ -11,15 +12,20 @@ form.addEventListener('submit', function (event) {
     var trow = document.createElement('tr');
     var tdata = document.createElement('td');
 
+    // Delete Button 
+
     var deleteButton = document.createElement('button');
     deleteButton.textContent = "Delete Task";
 
+    deleteButton.addEventListener('click', function (event) {
+        var deleteRow = this.parentNode;
+        deleteRow.parentNode.removeChild(deleteRow);
+    })
+
+    // Edit Button
+
     var editButton = document.createElement('button');
     editButton.textContent = "Edit Task";
-
-    var completeCheckbox = document.createElement('input');
-    completeCheckbox.type = 'checkbox';
-    completeCheckbox.name = `task${i}`;
 
     editButton.addEventListener('click', function(event){
         var tRow = this.parentNode;
@@ -28,18 +34,19 @@ form.addEventListener('submit', function (event) {
             tRow.childNodes[1].textContent = newTask;
     })
 
-    deleteButton.addEventListener('click', function (event) {
-        var deleteRow = this.parentNode;
-        deleteRow.parentNode.removeChild(deleteRow);
-    })
+    // Checkbox (Completed Criteria)
+
+    var completeCheckbox = document.createElement('input');
+    completeCheckbox.type = 'checkbox';
+    completeCheckbox.name = `task${i}`;
 
     completeCheckbox.addEventListener('change', function () {
         if (this.checked) {
-            var deleteRow = document.getElementById(this.name);
+            var deleteRow = document.getElementById(this.name); // Input name is task{n}
             var newRow = document.createElement('tr');
             var newData = document.createElement('td');
 
-            newData.textContent = deleteRow.childNodes[1].childNodes[0].textContent;
+            newData.textContent = deleteRow.childNodes[1].textContent; // get td.textContent ==> <tr < [0]input >< [1]td >< [2]button >< [3]button >>
             newData.className = "data-class";
             newRow.appendChild(newData);
             completedTableBody.appendChild(newRow);
@@ -47,6 +54,8 @@ form.addEventListener('submit', function (event) {
             deleteRow.parentNode.removeChild(deleteRow);
         }
     })
+
+
 
     tdata.textContent = document.getElementById('task').value;
     tdata.className = "data-class";
@@ -57,7 +66,6 @@ form.addEventListener('submit', function (event) {
     trow.appendChild(editButton);
 
     trow.id = `task${i++}`;
-    
     
     toDoTableBody.appendChild(trow);
 })
