@@ -1,3 +1,21 @@
+var canvas = document.getElementById('hangCanvas');
+var ctx = canvas.getContext("2d");
+
+function drawCircle()
+{
+    ctx.beginPath();
+    ctx.arc(100, 75, 50, 0, 2 * Math.PI);
+    ctx.stroke();
+}
+
+function drawLine()
+{
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(300,150);
+    ctx.stroke();
+}
+
 function Hangman(Guesses, Word){
     
     this.Guesses = Guesses;
@@ -25,6 +43,8 @@ function Hangman(Guesses, Word){
         else
         {
             this.Guesses -= 1;
+            drawCircle();
+            drawLine();
         }
         
         for (var show = 0; show < Word.length; show++)
@@ -37,6 +57,8 @@ function Hangman(Guesses, Word){
             else
             finalword += "-";
         }
+
+
         var guessedList = document.getElementById('formGet');
         var guess = document.createElement('p');
         guess.textContent = letter;
@@ -47,6 +69,7 @@ function Hangman(Guesses, Word){
         word.textContent = finalword;
         wordStat.append(word);
 
+
     }  
 
     this.playGame = function(letter)
@@ -54,7 +77,8 @@ function Hangman(Guesses, Word){
         this.makeGuess(letter);
         if (this.Guesses == 0)
             alert("GAME OVER");
-        
+        if (this.shown.length == this.Word.length)
+            alert("YOU WIN!");
     }
 
 }
