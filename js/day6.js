@@ -1,18 +1,70 @@
-class Hangman
-{
-    makeGuess = function()
-    {
+function Hangman(Guesses, Word){
+    
+    this.Guesses = Guesses;
+    this.Word = Word;
+    this.alive = true;
 
+    this.hidden = [...Array(Word.length).keys()];
+    this.shown = [];
+
+    this.makeGuess = function(letter)
+    {
+        var finalword = "";
+
+        if (this.Word.includes(letter))
+        {
+            for (let i = 0; i < this.Word.length; i++)
+            {
+                if (this.Word[i] == letter && !this.shown.includes(i))
+                {
+                    this.hidden.splice(i, 1);
+                    this.shown.push(i);
+                }
+            }
+        }
+        else
+        {
+            this.Guesses -= 1;
+        }
+        
+        for (var show = 0; show < Word.length; show++)
+        {
+            if (this.shown.includes(show))
+            {
+                finalword += Word[show];
+
+            }
+            else
+            finalword += "-";
+        }
+        var guessedList = document.getElementById('formGet');
+        var guess = document.createElement('p');
+        guess.textContent = letter;
+        guessedList.appendChild(guess);
+
+        var wordStat = document.getElementById('wordStatus');
+        var word = document.createElement('p');
+        word.textContent = finalword;
+        wordStat.append(word);
+
+    }  
+
+    this.playGame = function(letter)
+    {
+        this.makeGuess(letter);
+        if (this.Guesses == 0)
+            alert("GAME OVER");
+        
     }
 
-    playGame = function ()
-    {
-
-    }
 }
-Game = new Hangman();
+
+Game = new Hangman(5, "HELLO");
 
 var x = document.getElementById('formGet');
-x.addEventListener('submit', Game, function(event) {
+x.addEventListener('submit', function(event) {
     event.preventDefault();
+
+    var letter = document.getElementById('letter').value;
+    Game.playGame(letter);
 });
