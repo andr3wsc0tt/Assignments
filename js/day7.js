@@ -26,3 +26,5 @@ findHighNum = ( ...args ) =>
     console.log(args);
     return args;
 }
+
+addAllNums = (...nums) => nums.reduce( (a,v) => a + v);
