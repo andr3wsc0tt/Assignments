@@ -2,6 +2,8 @@ import './movie.js';
 
 var tron = new Movie("TRON", "Sci-Fi", 1972);
 
+tron.name = "TRON 2";
+
 console.log(tron.name);
 // myOtherFunction = (a, b) => 
 // {
