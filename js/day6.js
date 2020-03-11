@@ -92,16 +92,12 @@ function Hangman(Guesses, Word) {
         }
 
 
-        var guessedList = document.getElementById('formGet');
-        var guess = document.createElement('p');
-        guess.textContent = letter;
-        guessedList.appendChild(guess);
+        var guessedList = document.getElementById('letterguess');
+        guessedList.textContent += ` ${letter}`;
 
-        var wordStat = document.getElementById('wordStatus');
-        var word = document.createElement('p');
-        word.textContent = finalword;
-        wordStat.append(word);
-
+        var wordStat = document.getElementById('guess');
+        wordStat.textContent = finalword;
+        
 
     }
 
@@ -110,20 +106,96 @@ function Hangman(Guesses, Word) {
         if (this.shown.length == this.Word.length)
             alert("YOU WIN!");
         if (Game.Guesses == 0)
+        {
+            var wordStat = document.getElementById('guess');
+            wordStat.textContent = this.Word;
             setTimeout(function(){
                 alert("GAME OVER");
-            },2)
+            },2);
+            setTimeout(function(){
+                location.reload();
+            },2);
+        }
     }
 
 }
+var wordlist = `Ant
+Antelope
+Ape
+Ass
+Badger
+Bat
+Bear
+Beaver
+Bird
+Boar
+Camel
+Canary
+Cat
+Cheetah
+Chicken
+Chimpanzee
+Chipmunk
+Cow
+Crab
+Crocodile
+Deer
+Dog
+Dolphin
+Donkey
+Duck
+Eagle
+Elephant
+Ferret
+Fish
+Fox
+Frog
+Goat
+Hamster
+Hare
+Horse
+Kangaroo
+Leopard
+Lion
+Lizard
+Mole
+Monkey
+Mousedeer
+Mule
+Ostritch
+Otter
+Panda
+Parrot
+Pig
+Polecat
+Porcupine
+Rabbit
+Rat
+Rhinoceros
+Seal
+Sheep
+Snake
+Squirrel
+Tapir
+Toad
+Tiger
+Tortoise
+Walrus
+Whale
+Wolf
+Zebra`.toUpperCase();
 
-Game = new Hangman(7, "HELLO");
+wordlist = wordlist.split('\n');
+var randomNum = Math.floor((Math.random() * wordlist.length) + 1);
+
+Game = new Hangman(7, wordlist[randomNum]);
 
 var x = document.getElementById('formGet');
 x.addEventListener('submit', function (event) {
     event.preventDefault();
 
     var letter = document.getElementById('letter').value;
+    letter = letter.toUpperCase();
     Game.playGame(letter);
-
+    document.getElementById('letter').value = "";
 });
