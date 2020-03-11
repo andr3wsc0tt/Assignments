@@ -1,30 +1,39 @@
-function myFunction (a,b)
-{
-    return Number(a) + Number(b);
-}
+import './movie.js';
 
-console.log(myFunction(3, 7));
+var tron = new Movie("TRON", "Sci-Fi", 1972);
 
-// ES6 style:
+console.log(tron.name);
+// myOtherFunction = (a, b) => 
+// {
+//     const myAnswer = Number(a) + Number(b);
+//     return myAnswer;
+// }
 
-myFunction = (a,b) => Number(a) + Number(b);
+// addNums = (x =0, y = 0) => x + y;
 
-console.log(myFunction(3, 8));
+// console.log(addNums());
 
-myOtherFunction = (a, b) => 
-{
-    const myAnswer = Number(a) + Number(b);
-    return myAnswer;
-}
+// findHighNum = ( ...args ) =>
+// {
+//     console.log(args);
+//     return args;
+// }
 
-addNums = (x =0, y = 0) => x + y;
+// // Rest
+// addAllNums = (...nums) => nums.reduce( (a,v) => a + v);
 
-console.log(addNums());
+// const helloVar = 'Hello, world';
+// const sampleName = 'Sam';
 
-findHighNum = ( ...args ) =>
-{
-    console.log(args);
-    return args;
-}
 
-addAllNums = (...nums) => nums.reduce( (a,v) => a + v);
+// var x = [13, 2, 4, 56, 44, 777]
+
+// console.log(...x)
+
+// myOrganization: // You can jump to me!
+// {
+//     let myBlockNesterVar = 55;
+
+//     myBlockNesterVar++;
+//     console.log(myBlockNesterVar);
+// }
