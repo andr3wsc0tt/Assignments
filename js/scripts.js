@@ -19,6 +19,13 @@ function drawEyes(x1, y1)
     ctx.font = "9px Arial";
     ctx.fillText("x", x1, y1);
 }
+
+function happyEyes(x1, y1)
+{
+    ctx.font = "9px Arial";
+    ctx.fillText("> <", x1, y1);
+}
+
 function drawMan(guesses) {
     switch (guesses) {
         case 6:
@@ -45,6 +52,17 @@ function drawMan(guesses) {
             drawEyes(151, 25); // right eye
             drawCircle(150, 32, 5, Math.PI+0.2, -0.2);
             break;
+        default:
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawCircle(150, 25, 10, 0, 2 * Math.PI); // head
+            drawLine(150, 35, 150, 55); // neck
+            drawLine(125, 55, 150, 55); // left arm
+            drawLine(175, 55, 150, 55); // right arm
+            drawLine(150, 55, 150, 80); // body
+            drawLine(150, 80, 135, 95); // left leg
+            drawLine(150, 80, 165, 95); // right leg
+            happyEyes(144, 25); // left eye
+            drawCircle(150, 27, 5, -0.2, Math.PI+0.2);
     }
 }
 function buildNoose()
@@ -103,8 +121,12 @@ function Hangman(Guesses, Word) {
 
     this.playGame = function (letter) {
         this.makeGuess(letter);
+
         if (this.shown.length == this.Word.length)
+        {  
+            drawMan();
             alert("YOU WIN!");
+        }
         if (Game.Guesses == 0)
         {
             var wordStat = document.getElementById('guess');
