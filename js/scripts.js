@@ -190,12 +190,16 @@ var randomNum = Math.floor((Math.random() * wordlist.length) + 1);
 
 Game = new Hangman(7, wordlist[randomNum]);
 
+var wordStat = document.getElementById('guess');
+wordStat.textContent = '-'.repeat(Game.Word.length);
+
 var x = document.getElementById('formGet');
 x.addEventListener('submit', function (event) {
     event.preventDefault();
 
     var letter = document.getElementById('letter').value;
     letter = letter.toUpperCase();
-    Game.playGame(letter);
+    if (letter.length == 1)
+        Game.playGame(letter);
     document.getElementById('letter').value = "";
 });
