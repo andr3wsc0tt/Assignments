@@ -208,7 +208,8 @@ Wolf
 Zebra`.toUpperCase();
 
 wordlist = wordlist.split('\n');
-var randomNum = Math.floor((Math.random() * wordlist.length) + 1);
+console.log(wordlist.length);
+var randomNum = Math.floor((Math.random() * wordlist.length));
 
 Game = new Hangman(7, wordlist[randomNum]);
 
