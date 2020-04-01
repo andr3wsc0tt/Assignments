@@ -10,4 +10,3 @@ function changeEnough(change : Array<number> , amountDue : number) : boolean {
     else
         return false;
 }
-
