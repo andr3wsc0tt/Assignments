@@ -1,218 +1,68 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+/**
+ * JavaScript: Blog Exercise.
+ * @author  TECHCareers by Manpower
+ * @date    2020.03.31
+ * @summary Iterates through blog articles and outputs an HTML representation of each.
+ * 
+ * Goals:
+ * ======
+ * - Output into the DOM. - x
+ * - Use a template literal. - x
+ * - Use a for...of loop. - x
+ * - Instantiate an object or object(s) of a class. - x
+ * - Add an element to an array. - x
+ * - Loop through (iterate through) an array. - x
+ * - If you are adding functions or using methods, use ES6 standard.
+ */
 
-var x = canvas.width/2;
-var y = canvas.height-30;
-
-var dx = 1.5;
-var dy = -1.5;
-
-var ballRadius = 10;
-
-var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width-paddleWidth) / 2;
-
-var rightPressed = false;
-var leftPressed = false;
-
-var brickRowCount = 1;
-var brickColumnCount = 5;
-var brickWidth = 25;
-var brickHeight = 10;
-var brickPadding = 5;
-var brickOffsetTop = 35;
-var brickOffsetLeft = 15;
-
-var bricks = [];
-
-var score = 0;
-var lives = 3;
-
-for(var c=0; c < brickColumnCount; c++)
-{
-    bricks[c] = [];
-    for(var r=0; r < brickRowCount; r++)
+class Article {
+    constructor ( title = 'Blog Title', content = 'Lorem ipsum...' )
     {
-        bricks[c][r] = {x: 0, y: 0, status: 1};
+      this.title = title;
+      this.content = content;
     }
-}
-
-function drawBall()
-{
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-
-function drawPaddle()
-{
-    ctx.beginPath();
-    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-
-function drawBricks()
-{
-    for (var c=0; c < brickColumnCount; c++)
+    output ()
     {
-        for (var r=0; r < brickRowCount; r++)
-        {
-            if (bricks[c][r].status == 1)
-            {
-                var brickX = (c*(brickWidth+brickPadding)) + brickOffsetLeft;
-                var brickY = (r*(brickHeight+brickPadding)) + brickOffsetTop;
-                bricks[c][r].x = brickX;
-                bricks[c][r].y = brickY;
-                ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = "#0095DD";
-                ctx.fill();
-                ctx.closePath();
-            }
-        }
+      var sec = document.getElementById("blog");
+      sec.innerHTML += `<h2> ${this.title} </h2>`;
+      sec.innerHTML += `<article> ${this.content} </article>`;
     }
-}
-
-function draw()
-{
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBricks();
-    drawBall();
-    drawPaddle();
-    drawScore();
-    drawLives();
-    collisionDetection();
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius)
-        dx = -dx;
-
-    if (y + dy < ballRadius)
-    {
-        dy = -dy;
-    }
-    else if (y + dy > canvas.height-ballRadius)
-    {
-        if(x > paddleX && x < paddleX + paddleWidth)
-        {
-            dy = -dy;
-        }
-        else
-        {
-            lives--;
-            if (!lives)
-            {
-                alert("GAME OVER");
-                document.location.reload();
-            }
-            else
-            {
-                x = canvas.width/2;
-                y = canvas.height-30;
-                dx = 2;
-                dy = -2;
-                paddleX = (canvas.width-paddleWidth)/2;
-            }
-        }
-    }
-
-    x += dx;
-    y += dy;
-
-    if(rightPressed)
-    {
-        paddleX += 7;
-        if(paddleX + paddleWidth > canvas.width)
-        {
-            paddleX = canvas.width - paddleWidth;
-        }
-    }
-    else if (leftPressed)
-    {
-        paddleX -= 7;
-        if (paddleX < 0)
-            paddleX = 0;
-    }
-    requestAnimationFrame(draw);
-}
-
-
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
-
-function mouseMoveHandler(e)
-{
-    var relativeX = e.clientX - canvas.offsetLeft;
-    if (relativeX > 0 && relativeX < canvas.width)
-    {
-        paddleX = relativeX - paddleWidth/2;
-    }
-}
-function keyDownHandler(e)
-{
-    if(e.key == "Right" || e.key == "ArrowRight")
-    {
-        rightPressed = true;
-    }
-    else if (e.key == "Left" || e.key == "ArrowLeft")
-    {
-        leftPressed = true;
-    }
-}
-
-function keyUpHandler(e)
-{
-    if(e.key == "Right" || e.key == "ArrowRight")
-    {
-        rightPressed = false;
-    }
-    else if(e.key == "Left" || e.key == "ArrowLeft")
-    {
-        leftPressed = false;
-    }
-}
-
-function collisionDetection()
-{
-    for (var c=0; c < brickColumnCount; c++)
-    {
-        for (var r=0; r < brickRowCount; r++)
-        {
-            var b = bricks[c][r];
-            if (b.status == 1)
-            {
-                if (x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight)
-                {
-                    dy = -dy;
-                    b.status = 0;
-                    score++;
-                    if(score === brickRowCount*brickColumnCount)
-                    {
-                        alert("YOU WIN, CONGRATS!!!");
-                        document.location.reload();
-                    }
-                }
-            }
-        }
-    }
-}
-
-function drawScore()
-{
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText('Score: '+score, 8 , 20);
-}
-
-function drawLives()
-{
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
-}
-
-draw();
+  }
+  
+  const blogArticles = [
+    new Article(
+      'First Day of Class (C#)',
+      'Oh! C# is a programming language, often used for Windows programs... this could be really useful! It has variables, loops, and even methods; a lot to learn, but it really opens up doors!'
+    ),
+    new Article(
+      'How to Build Websites! (HTML)',
+      'What a great day! We learned all about HTML, or, HyperText Markup Language. It is the content and skeleton of the website.'
+    ),
+    new Article(
+      'Brand new Topic (CSS)',
+      'Today we learned about CSS, or, Cascading StyleSheets - how cool! This language helps us make our sites look pretty, we get to define the styles.'
+    ),
+    new Article(
+      'Another New Topic!? (JS)',
+      'Wow! I thought the other languages were pretty neat, but this one takes the cake so far. JS, or JavaScript, can be used to bring our websites to LIFE! It is used for functionality within the webpage.'
+    ),
+    new Article(
+      'Adding on to our JS (TS)',
+      'Who knew we could use something to check our code for errors and offer additional features to JavaScript!? TS, or TypeScript, is a superset of JavaScript that compiles to regular JS. The extra features will come in handy!'
+    ),
+    new Article(
+      'Time to React',
+      'Our very first large JavaScript framework, how exciting! Now we can build web components and build more complex front-ends with ease... a bit of a learning curve but so useful now that we\'re getting the hang of it!'
+    )
+  ];
+  
+  // TODO: Add a new article to the array (add "SASS" inbetween the "CSS" and "JS" articles.)
+  
+  var newArt = new Article('Another New Topic!? (SASS)', 'This is a SASS article');
+  
+  for ( let article of blogArticles )
+  {
+    if (article.title.includes("CSS"))
+        blogArticles.splice(blogArticles.indexOf(article)+1, 0, newArt);
+    article.output();
+  }
