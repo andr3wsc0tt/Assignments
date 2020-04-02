@@ -1,5 +1,5 @@
-var canvas = <HTMLCanvasElement> document.getElementById('hangCanvas');
-var ctx = canvas.getContext("2d");
+const canvas : HTMLCanvasElement = <HTMLCanvasElement> document.getElementById('hangCanvas');
+const ctx : CanvasRenderingContext2D = canvas.getContext("2d");
 
 function drawCircle(x : number, y : number, r : number, s0 : number, e0 : number) : void{
     ctx.beginPath();
@@ -138,7 +138,7 @@ class Hangman {
         }
         if (Game.Guesses == 0) // If you ran out of turns
         {
-            var wordStat = document.getElementById('guess');
+            let wordStat : HTMLElement = <HTMLElement> document.getElementById('guess');
             wordStat.textContent = this.Word; // Show what the hidden word was
 
             /* alert() needs a timeout function to set the background HTML or it doesn't let the HTML load */

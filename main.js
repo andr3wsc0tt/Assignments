@@ -109,8 +109,8 @@ var Hangman = (function () {
             alert("YOU WIN!");
         }
         if (Game.Guesses == 0) {
-            var wordStat = document.getElementById('guess');
-            wordStat.textContent = this.Word;
+            var wordStat_1 = document.getElementById('guess');
+            wordStat_1.textContent = this.Word;
             setTimeout(function () {
                 alert("GAME OVER");
             }, 2);
