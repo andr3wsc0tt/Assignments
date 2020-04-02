@@ -1,10 +1,3 @@
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 var canvas = document.getElementById('hangCanvas');
 var ctx = canvas.getContext("2d");
 function drawCircle(x, y, r, s0, e0) {
@@ -27,6 +20,7 @@ function happyEyes(x1, y1) {
     ctx.fillText("> <", x1, y1);
 }
 function drawMan(guesses) {
+    if (guesses === void 0) { guesses = -1; }
     switch (guesses) {
         case 6:
             drawCircle(150, 25, 10, 0, 2 * Math.PI);
@@ -52,7 +46,7 @@ function drawMan(guesses) {
             drawEyes(151, 25);
             drawCircle(150, 32, 5, Math.PI + 0.2, -0.2);
             break;
-        default:
+        case -1:
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawCircle(150, 25, 10, 0, 2 * Math.PI);
             drawLine(150, 35, 150, 55);
@@ -71,13 +65,18 @@ function buildNoose() {
     drawLine(30, 10, 150, 10);
     drawLine(150, 10, 150, 15);
 }
-function Hangman(Guesses, Word) {
-    this.Guesses = Guesses;
-    this.Word = Word;
-    this.hidden = __spreadArrays(Array(Word.length).keys());
-    this.shown = [];
-    buildNoose();
-    this.makeGuess = function (letter) {
+var Hangman = (function () {
+    function Hangman(Guesses, Word) {
+        this.Guesses = Guesses;
+        this.Word = Word;
+        this.hidden = [];
+        for (var i = 0; i < Word.length; i++) {
+            this.hidden.push(i);
+        }
+        this.shown = [];
+        buildNoose();
+    }
+    Hangman.prototype.makeGuess = function (letter) {
         var finalword = "";
         if (this.Word.includes(letter)) {
             for (var i = 0; i < this.Word.length; i++) {
@@ -91,9 +90,9 @@ function Hangman(Guesses, Word) {
             this.Guesses -= 1;
             drawMan(this.Guesses);
         }
-        for (var show = 0; show < Word.length; show++) {
+        for (var show = 0; show < this.Word.length; show++) {
             if (this.shown.includes(show)) {
-                finalword += Word[show];
+                finalword += this.Word[show];
             }
             else
                 finalword += "-";
@@ -103,7 +102,7 @@ function Hangman(Guesses, Word) {
         var wordStat = document.getElementById('guess');
         wordStat.textContent = finalword;
     };
-    this.playGame = function (letter) {
+    Hangman.prototype.playGame = function (letter) {
         this.makeGuess(letter);
         if (this.shown.length == this.Word.length) {
             drawMan();
@@ -120,11 +119,12 @@ function Hangman(Guesses, Word) {
             }, 2);
         }
     };
-}
-var wordlist = "Ant\nAntelope\nApe\nAss\nBadger\nBat\nBear\nBeaver\nBird\nBoar\nCamel\nCanary\nCat\nCheetah\nChicken\nChimpanzee\nChipmunk\nCow\nCrab\nCrocodile\nDeer\nDog\nDolphin\nDonkey\nDuck\nEagle\nElephant\nFerret\nFish\nFox\nFrog\nGoat\nHamster\nHare\nHorse\nKangaroo\nLeopard\nLion\nLizard\nMole\nMonkey\nMousedeer\nMule\nOstritch\nOtter\nPanda\nParrot\nPig\nPolecat\nPorcupine\nRabbit\nRat\nRhinoceros\nSeal\nSheep\nSnake\nSquirrel\nTapir\nToad\nTiger\nTortoise\nWalrus\nWhale\nWolf\nZebra".toUpperCase();
-wordlist = wordlist.split('\n');
+    return Hangman;
+}());
+var words = "Ant\nAntelope\nApe\nAss\nBadger\nBat\nBear\nBeaver\nBird\nBoar\nCamel\nCanary\nCat\nCheetah\nChicken\nChimpanzee\nChipmunk\nCow\nCrab\nCrocodile\nDeer\nDog\nDolphin\nDonkey\nDuck\nEagle\nElephant\nFerret\nFish\nFox\nFrog\nGoat\nHamster\nHare\nHorse\nKangaroo\nLeopard\nLion\nLizard\nMole\nMonkey\nMousedeer\nMule\nOstritch\nOtter\nPanda\nParrot\nPig\nPolecat\nPorcupine\nRabbit\nRat\nRhinoceros\nSeal\nSheep\nSnake\nSquirrel\nTapir\nToad\nTiger\nTortoise\nWalrus\nWhale\nWolf\nZebra".toUpperCase();
+var wordlist = words.split('\n');
 var randomNum = Math.floor((Math.random() * wordlist.length));
-Game = new Hangman(7, wordlist[randomNum]);
+var Game = new Hangman(7, wordlist[randomNum]);
 var wordStat = document.getElementById('guess');
 wordStat.textContent = '-'.repeat(Game.Word.length);
 var x = document.getElementById('formGet');
