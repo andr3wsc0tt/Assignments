@@ -84,7 +84,7 @@ class Hangman {
         this.Guesses = Guesses;
         this.Word = Word;
         this.hidden = [];
-        for (let i = 0; i < Word.length; i++)
+        for (let i : number = 0; i < Word.length; i++)
     {
         this.hidden.push(i); // Store the indices of the hidden (unguessed) letters
     }
@@ -93,10 +93,10 @@ class Hangman {
     }
 
     makeGuess (letter : string) : void {
-        var finalword = "";
+        let finalword : string = "";
 
         if (this.Word.includes(letter)) { // If the secret word 'includes()' the guessed letter
-            for (let i = 0; i < this.Word.length; i++) { // Check each letter in the chosen word
+            for (let i : number = 0; i < this.Word.length; i++) { // Check each letter in the chosen word
                 if (this.Word[i] == letter && !this.shown.includes(i)) { // If the guessed letter is the same as a letter in the secret word and it hasn't been guessed yet (it's index isn't in shown[])
                     this.hidden.splice(i, 1); // Remove it's index from the hidden list
                     this.shown.push(i); // Add it's index to the shown list
@@ -109,7 +109,7 @@ class Hangman {
         }
 
         /* Create the "Guessed so far" word */
-        for (var show = 0; show < this.Word.length; show++) {
+        for (let show : number = 0; show < this.Word.length; show++) {
             if (this.shown.includes(show)) { // If a letter in the secret words' index is in shown
                 finalword += this.Word[show]; // Add it to the "Guessed so far" word
 
@@ -119,10 +119,10 @@ class Hangman {
         }
 
         /* Add the letter guessed and the word so far to the HTML*/
-        var guessedList = document.getElementById('letterguess');
+        let guessedList : HTMLElement = document.getElementById('letterguess');
         guessedList.textContent += ` ${letter}`;
 
-        var wordStat = document.getElementById('guess');
+        let wordStat : HTMLElement = document.getElementById('guess');
         wordStat.textContent = finalword;
         
 
@@ -152,7 +152,7 @@ class Hangman {
     }
 
 }
-var words = `Ant
+const words : string = `Ant
 Antelope
 Ape
 Ass
@@ -218,21 +218,21 @@ Whale
 Wolf
 Zebra`.toUpperCase(); // Convert all the words to UPPERCASE
 
-let wordlist = words.split('\n'); // Split each word into it's own array element
+let wordlist : Array<string> = words.split('\n'); // Split each word into it's own array element
 
-var randomNum = Math.floor((Math.random() * wordlist.length)); // Choose a random number between 0 and the length of the wordlist-1
+let randomNum : number = Math.floor((Math.random() * wordlist.length)); // Choose a random number between 0 and the length of the wordlist-1
 
-let Game = new Hangman(7, wordlist[randomNum]); // Initialize the game with the word chosen and 7 guesses (Head, neck, 2 arms, body, 2 legs) == 7
+let Game : any = new Hangman(7, wordlist[randomNum]); // Initialize the game with the word chosen and 7 guesses (Head, neck, 2 arms, body, 2 legs) == 7
 
-var wordStat = document.getElementById('guess');
+let wordStat : HTMLElement = document.getElementById('guess');
 wordStat.textContent = '-'.repeat(Game.Word.length); // Show how many letters are in the word at the beginning of the game
 
-var x = document.getElementById('formGet'); // Get the input form (Guess Box)
+let x : HTMLElement = document.getElementById('formGet'); // Get the input form (Guess Box)
 
 x.addEventListener('submit', function (event) { // Wait for the submit click
     event.preventDefault();
 
-    var letter = (<HTMLInputElement>document.getElementById('letter')).value;
+    let letter = (<HTMLInputElement>document.getElementById('letter')).value;
     letter = letter.toUpperCase();
     if (letter.length == 1) // Don't let more than one letter be entered
         Game.playGame(letter); // PLAY!
