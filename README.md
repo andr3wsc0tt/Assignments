@@ -10,4 +10,4 @@ User must have 4 properties to display on profile : done\
 Use State (State must change when user is logged in) : done - loggedIn changes\
 Use Props (Props must be passed from parent to child) : done - Login passes props to Card\
 Conditional Rendering : profile only rendered if logged in : done\
-State holds verification username/password : done\
+State holds verification username/password : done
