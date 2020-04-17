@@ -1,16 +1,12 @@
-import * as React from 'react';
+import React from 'react'
+import { Button } from 'semantic-ui-react'
 
-export interface IButtonProps {
-}
+const ButtonExampleConditionals = () => (
+  <Button.Group>
+    <Button>Cancel</Button>
+    <Button.Or />
+    <Button positive>Save</Button>
+  </Button.Group>
+)
 
-export interface IButtonState {
-    
-}
-
-export default class Button extends React.Component<IButtonProps> {
-  public render() {
-    return (
-      <button></button>
-    );
-  }
-}
+export default ButtonExampleConditionals

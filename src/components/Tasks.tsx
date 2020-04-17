@@ -1,4 +1,7 @@
 import * as React from 'react';
+import Button from './Button'
+import ButtonExampleConditionals from './Button';
+import './Tasks.css'
 
 export interface ITaskProps {
 }
@@ -13,8 +16,9 @@ export default class Task extends React.Component<ITaskProps> {
   public render() {
     return (
       <React.Fragment>
-          <section>
-
+          <section className="container">
+            <h2>Task Name</h2>
+            <ButtonExampleConditionals/>
           </section>
       </React.Fragment>
 
