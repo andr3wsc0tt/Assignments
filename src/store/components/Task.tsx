@@ -6,14 +6,15 @@ import {addTask, removeTask} from '../actions/actions'
 import {Card, Grid} from 'semantic-ui-react';
 
 export interface ITaskAppProps {
-    tasks?: Task[]
-    addTask: typeof addTask
+    tasks: Task[],
+    addTask: typeof addTask,
+    taskNum: number
     // addTask: typeof addTask,
     // removeTask: typeof removeTask
 }
 
 export interface ITaskAppState {
-    value : string
+    value : string 
 }
 export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
   
@@ -25,9 +26,10 @@ export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
     handleSubmit = (e : React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault();
         let {value} = this.state;
-        let {addTask} = this.props;
+        let {taskNum, addTask} = this.props;
 
-        addTask({id:2, name:value});
+
+        addTask({id:taskNum, name:value});
     }
 
     handleChange = (e : React.FormEvent<HTMLInputElement> ) => {
@@ -35,7 +37,7 @@ export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
     }
 
     public render() {
-        let {tasks} = this.props;
+        let {tasks, taskNum} = this.props;
     return (
         <>
             <form onSubmit = {this.handleSubmit}>
@@ -44,8 +46,11 @@ export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
           {tasks != null ? tasks.map(task => {
               return <Card>
                   <Card.Header>
-                      {task.name}
+                      {task.id}
                   </Card.Header>
+                  <Card.Content>
+                      {task.name}
+                  </Card.Content>
               </Card>
           }) : <h1> No Tasks </h1>}
           </>
@@ -56,6 +61,7 @@ export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
 const mapStateToProps = (state : RootState) => {
     return {
         tasks: state.taskReduce.tasks,
+        taskNum: state.taskReduce.taskNum
     };
 }
 

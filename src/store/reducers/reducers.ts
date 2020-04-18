@@ -12,7 +12,8 @@ const initialTaskState: TaskState = {
             id: 2,
             name: "Dishes"
         }
-    ]
+    ],
+    taskNum: 3
 };
 
 export function taskReducer(state = initialTaskState, action: TaskActionTypes) : TaskState {
@@ -20,7 +21,8 @@ export function taskReducer(state = initialTaskState, action: TaskActionTypes) :
         case ADD_TASK:
             return{
                 ...state,
-                tasks: [...state.tasks, action.payload]
+                tasks: [...state.tasks, action.payload],
+                taskNum: ++state.taskNum
             }
         case REMOVE_TASK:
             return {
