@@ -7,16 +7,40 @@ import {Card, Grid} from 'semantic-ui-react';
 
 export interface ITaskAppProps {
     tasks?: Task[]
+    addTask: typeof addTask
     // addTask: typeof addTask,
     // removeTask: typeof removeTask
 }
 
-export class TaskApp extends React.Component<ITaskAppProps> {
+export interface ITaskAppState {
+    value : string
+}
+export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
   
+    constructor(props: ITaskAppProps){
+        super(props);
+        this.state = {value: ""};
+    }
+
+    handleSubmit = (e : React.FormEvent<HTMLFormElement> ) => {
+        e.preventDefault();
+        let {value} = this.state;
+        let {addTask} = this.props;
+
+        addTask({id:2, name:value});
+    }
+
+    handleChange = (e : React.FormEvent<HTMLInputElement> ) => {
+        this.setState({value : e.currentTarget.value})
+    }
+
     public render() {
         let {tasks} = this.props;
     return (
         <>
+            <form onSubmit = {this.handleSubmit}>
+            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+            </form>
           {tasks != null ? tasks.map(task => {
               return <Card>
                   <Card.Header>
@@ -37,5 +61,5 @@ const mapStateToProps = (state : RootState) => {
 
 export default connect (
     mapStateToProps,
-    null,
+    {addTask},
 )(TaskApp);
