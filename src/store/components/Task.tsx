@@ -10,38 +10,56 @@ export interface ITaskAppProps {
     addTask: typeof addTask,
     taskNum: number
     // addTask: typeof addTask,
-    // removeTask: typeof removeTask
+    removeTask: typeof removeTask
 }
 
 export interface ITaskAppState {
-    value : string 
+    addValue : string,
+    removeValue : string
 }
 export class TaskApp extends React.Component<ITaskAppProps, ITaskAppState> {
   
     constructor(props: ITaskAppProps){
         super(props);
-        this.state = {value: ""};
+        this.state = {addValue: "", removeValue: ""};
     }
 
-    handleSubmit = (e : React.FormEvent<HTMLFormElement> ) => {
+    handleAdd = (e : React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault();
-        let {value} = this.state;
-        let {taskNum, addTask} = this.props;
+        let {addValue} = this.state;
+        let {taskNum, addTask, removeTask} = this.props;
 
 
-        addTask({id:taskNum, name:value});
+        addTask({id:taskNum, name:addValue});
+    }
+    handleRemove = (e : React.FormEvent<HTMLFormElement> ) => {
+        e.preventDefault();
+        let {removeValue} = this.state;
+        let {taskNum, removeTask} = this.props;
+
+        removeTask(Number(removeValue));
     }
 
-    handleChange = (e : React.FormEvent<HTMLInputElement> ) => {
-        this.setState({value : e.currentTarget.value})
+    handleAddChange = (e : React.FormEvent<HTMLInputElement> ) => {
+        this.setState({addValue : e.currentTarget.value})
+    }
+
+    handleRemoveChange = (e : React.FormEvent<HTMLInputElement> ) => {
+        this.setState({removeValue : e.currentTarget.value})
     }
 
     public render() {
         let {tasks, taskNum} = this.props;
     return (
         <>
-            <form onSubmit = {this.handleSubmit}>
-            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+            <form onSubmit = {this.handleAdd}>
+            <input type="text" value={this.state.addValue} onChange={this.handleAddChange}/>
+            <input type="submit" value="Add"/>
+            </form>
+
+            <form onSubmit = {this.handleRemove}>
+            <input type="text" value={this.state.removeValue} onChange={this.handleRemoveChange}/>
+            <input type="submit" value="Remove"/>
             </form>
           {tasks != null ? tasks.map(task => {
               return <Card>
@@ -67,5 +85,5 @@ const mapStateToProps = (state : RootState) => {
 
 export default connect (
     mapStateToProps,
-    {addTask},
+    {addTask, removeTask},
 )(TaskApp);
