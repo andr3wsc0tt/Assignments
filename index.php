@@ -12,18 +12,19 @@
     $_SESSION['complete'] = array();
   }
 
-
   $_SESSION['tasks'] = array_values( $_SESSION['tasks'] );
   $_SESSION['complete'] = array_values( $_SESSION['complete'] );
 
   if ( isset( $_POST ) && !empty( $_POST ) ) // Making sure SOMETHING was submitted.
   {
     $newTask = $_POST['addTask'];
+    unset($_POST['addTask']);
     $_SESSION['tasks'][$newTask] = $newTask;
 
     if ( isset( $_POST['reset'])) {
       $_SESSION['tasks'] = array();
       $_SESSION['complete'] = array();
+      session_destroy();
     }
 
     if ( isset( $_POST['task'])) {
@@ -31,13 +32,10 @@
 
       $key = array_search($completeTask, array_values($_SESSION['tasks']));
 
-
-      echo "<script>console.log('this is a $key')</script>";
-
-
       unset($_SESSION['tasks'][$key]);
       unset($_SESSION['tasks'][""]);
       $_SESSION['complete'][] = $completeTask;
+
     }
   }
 
@@ -46,12 +44,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PHP Form Handling</title>
+  <title>PHP Assignment</title>
   
 </head>
 <body>
   <h1>PHP Form Handling</h1>
-  <h2>Sign In Form</h2>
+  <h2>Task</h2>
   <p>
     <?php echo $message; // Output our "sign-in" related message. ?>
   </p>
@@ -70,10 +68,14 @@
     <h2>Tasks</h2>
 
     <form action="./index.php" method="POST">
+    <ul>
       <?php foreach ( $_SESSION['tasks'] as $interest ) : $task++ ?>
+        <li>
         <label for="<?php echo "task$task"?>"><?php echo $interest; ?></label>
           <input type="checkbox" id="<?php echo "task$task"?>" name="<?php echo "task"?>" onchange="this.form.submit()" value="<?php echo $interest; ?>">
+        </li>
       <?php endforeach; ?>
+      </ul>
       </form>
   <?php endif; ?>
   
@@ -98,8 +100,6 @@
     <strong>$_SESSION contents:</strong>
     <?php var_dump( $_SESSION ); ?>
   </pre>
-
-
   
 </body>
 </html>
